@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Retail_Stock_Management</string>
+    <string name="button_admin">Admin</string>
+    <string name="hint_admin_price">Price</string>
+    <string name="hint_admin_name">Name</string>
+    <string name="hint_admin_brand">Brand</string>
+    <string name="button_sell">Bán Hàng</string>
+    <string name="button_buy">Nhập Hàng</string>
+    <string name="button_edit">Chỉnh Sửa</string>
+    <string name="button_analysis">Phân Tích</string>
+    <string name="button_phat">Phát</string>
+    <string name="button_admin_pick">Pick Photo</string>
+    <string name="button_admin_upload">Add Product</string>
+
+</resources>

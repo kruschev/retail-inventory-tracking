@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "597407254706",
+    "firebase_url": "https://retail-stock-management.firebaseio.com",
+    "project_id": "retail-stock-management",
+    "storage_bucket": "retail-stock-management.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597407254706:android:3fc61d3927774e9ab421ab",
+        "android_client_info": {
+          "package_name": "com.example.retail_stock_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597407254706-f7vu8g9tetku5s2c5713gra2h55ddurk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.retail_stock_management",
+            "certificate_hash": "6923f580de7500cde4c86ec2f73b5d0ebe7919c1"
+          }
+        },
+        {
+          "client_id": "597407254706-tq1d1fc3ublf0re8uci5hgndah1kk5ms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJsHSnrqdNoH08NN3tTm9rSwymrBfDnrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597407254706-tq1d1fc3ublf0re8uci5hgndah1kk5ms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
