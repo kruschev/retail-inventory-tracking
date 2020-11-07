@@ -40,6 +40,7 @@ public class AddProdActivity extends AppCompatActivity {
     public static final int REQUEST_UPLOAD = 1;
     private Uri imageUri;
     private String prodCategory;
+    private String newProdCategory;
     private ArrayList<String> prodCategoryList = new ArrayList<>();
     private StorageReference ProductImageRef;
     private DatabaseReference DataRef;
@@ -59,7 +60,7 @@ public class AddProdActivity extends AppCompatActivity {
         CategoryDataRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                String value = dataSnapshot.getKey();
+                String value = dataSnapshot.getValue(String.class);
                 prodCategoryList.add(value);
             }
 
@@ -93,29 +94,7 @@ public class AddProdActivity extends AppCompatActivity {
 
 
                 if (selectedCategory == "New category") {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AddProdActivity.this);
-
-                    View viewInflated = LayoutInflater.from(AddProdActivity.this).inflate(R.layout.popup_add_prod_category, null, false);
-                    final EditText new_category_input = viewInflated.findViewById(R.id.popupNewCategory);
-
-                    builder.setTitle("New category name:");
-                    builder.setView(viewInflated);
-
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            prodCategory  = new_category_input.getText().toString();
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    builder.show();
+                    new_category();
                 }
                 else if (selectedCategory != "Pick category"){
                     prodCategory = selectedCategory;
@@ -126,6 +105,34 @@ public class AddProdActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+    }
+
+    public void new_category() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddProdActivity.this);
+
+        View viewInflated = LayoutInflater.from(AddProdActivity.this).inflate(R.layout.popup_add_prod_category, null, false);
+        final EditText new_category_input = viewInflated.findViewById(R.id.popupNewCategory);
+
+        builder.setTitle("New category name:");
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                newProdCategory = new_category_input.getText().toString();
+                prodCategory  = newProdCategory;
+                Toast.makeText(AddProdActivity.this, newProdCategory + " will be added to category.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void pick_img(View view) {
@@ -148,10 +155,8 @@ public class AddProdActivity extends AppCompatActivity {
     public void upload_img(View view) {
         EditText ProductName = findViewById(R.id.prod_name);
         EditText ProductPrice = findViewById(R.id.prod_price);
-        //EditText ProductCategory = findViewById(R.id.prod_cat);
         final String prodName = ProductName.getText().toString();
         final String prodPrice = ProductPrice.getText().toString();
-        //final String prodCategory = ProductCategory.getText().toString();
 
         if (imageUri == null) {
             Toast.makeText(this, "Missing product image", Toast.LENGTH_SHORT).show();
@@ -203,6 +208,12 @@ public class AddProdActivity extends AppCompatActivity {
         Product newProduct = new Product(prodName, prodPrice, prodCategory, image_url);
 
         ProductDataRef.child(prodID).setValue(newProduct);
+
+        if (newProdCategory == prodCategory){
+            DatabaseReference NewCategoryDataRef = DataRef.child("category");
+            NewCategoryDataRef.push().setValue(prodCategory);
+            newProdCategory = "";
+        }
     }
 }
 
