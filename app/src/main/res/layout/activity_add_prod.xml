@@ -68,18 +68,28 @@
         android:onClick="upload_img"
         android:text="@string/button_admin_upload"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prod_brand" />
+        app:layout_constraintTop_toBottomOf="@+id/prod_cat" />
 
     <EditText
-        android:id="@+id/prod_brand"
+        android:id="@+id/prod_cat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="@string/hint_admin_brand"
+        android:hint="@string/hint_admin_cat"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prod_price" />
+
+    <Spinner
+        android:id="@+id/prod_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload_img" />
 </androidx.constraintlayout.widget.ConstraintLayout>
