@@ -206,7 +206,7 @@ public class AddProdActivity extends AppCompatActivity {
         DatabaseReference ProductDataRef = DataRef.child("product");
         String prodID = ProductDataRef.push().getKey();
 
-        Product NewProduct = new Product(prodName, prodPrice, "0", prodCategory, prodImageUrl, "", new ArrayList<String>(), "", );
+        Product NewProduct = new Product(prodID, prodName, prodPrice, "0", prodCategory, prodImageUrl, "", "", "", "");
 
         ProductDataRef.child(prodID).setValue(NewProduct);
 

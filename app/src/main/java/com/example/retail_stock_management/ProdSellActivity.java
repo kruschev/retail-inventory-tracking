@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +34,7 @@ public class ProdSellActivity extends AppCompatActivity {
         DataRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ProductDataRef = DataRef.child("product");
 
-        ProductDataRef.orderByChild("productCategory").equalTo(category_name).addValueEventListener(new ValueEventListener() {
+        ProductDataRef.orderByChild("category").equalTo(category_name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot product_child: dataSnapshot.getChildren()) {
@@ -43,14 +44,12 @@ public class ProdSellActivity extends AppCompatActivity {
 
                 Collections.sort(productList,new ProductCompare());
 
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_category);
+                RecyclerView recyclerView = findViewById(R.id.recycler_view_productSell);
                 recyclerView.setLayoutManager(new GridLayoutManager(ProdSellActivity.this, NUMBER_OF_COLUMNS));
 
                 RecyclerItemViewAdapter Adapter = new RecyclerItemViewAdapter(productList, new RecyclerItemViewAdapter.OnItemClickListener() {
-                    @Override public void onItemClick(String button_text) {
-                        Intent ProductSell = new Intent(ProdSellActivity.this, ProdSellActivity.class);
-                        ProductSell.putExtra(CATEGORY_NAME, button_text);
-                        startActivity(ProductSell);
+                    @Override public void onItemClick(String product_id) {
+
                     }
                 });
                 recyclerView.setAdapter(Adapter);

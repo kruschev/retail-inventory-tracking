@@ -1,5 +1,6 @@
 package com.example.retail_stock_management;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ public class RecyclerItemViewAdapter extends RecyclerView.Adapter<RecyclerItemVi
 
     //Interface to connect between Activity and RecyclerView
     public interface OnItemClickListener {
-        void onItemClick(String button_text);
+        void onItemClick(String product_id);
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -31,7 +32,6 @@ public class RecyclerItemViewAdapter extends RecyclerView.Adapter<RecyclerItemVi
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public ImageView imageView;
         public TextView prodNameView;
         public TextView prodPriceView;
@@ -63,16 +63,16 @@ public class RecyclerItemViewAdapter extends RecyclerView.Adapter<RecyclerItemVi
         // - get element from your dataset at this position
         final Product product = mData.get(position);
 
-        Picasso.get().load(product.getImageUrl()).into(holder.imageView);
-        holder.prodNameView.setText(product.getName());
-        holder.prodPriceView.setText(product.getPrice());
-        holder.prodQuantView.setText(product.getQuant());
+        Picasso.get().load(product.imageUrl).into(holder.imageView);
+        holder.prodNameView.setText(product.name);
+        holder.prodPriceView.setText(holder.itemView.getContext().getString(R.string.prefix_price, product.priceSell));
+        holder.prodQuantView.setText(holder.itemView.getContext().getString(R.string.prefix_quant, product.quant));
 
         // Callback function when button is clicked in Activity, communication through listener interface
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick(button_text);
+                listener.onItemClick(product.id);
             }
         });
     }

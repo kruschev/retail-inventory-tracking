@@ -5,12 +5,15 @@
     <string name="hint_admin_name">Name</string>
     <string name="hint_admin_cat">Category</string>
     <string name="hint_admin_popup">New Category</string>
+
     <string name="button_sell">Bán Hàng</string>
     <string name="button_buy">Nhập Hàng</string>
     <string name="button_edit">Chỉnh Sửa</string>
     <string name="button_analysis">Phân Tích</string>
-    <string name="button_phat">Phát</string>
+
     <string name="button_admin_pick">Pick Photo</string>
     <string name="button_admin_upload">Add Product</string>
 
+    <string name="prefix_price">Giá: %1$s</string>
+    <string name="prefix_quant">Còn: %1$s</string>
 </resources>

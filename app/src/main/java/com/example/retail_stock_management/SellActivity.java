@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import com.google.firebase.database.DataSnapshot;
