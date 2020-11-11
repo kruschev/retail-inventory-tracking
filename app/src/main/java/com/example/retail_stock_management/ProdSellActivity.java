@@ -14,36 +14,41 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class SellActivity extends AppCompatActivity {
+public class ProdSellActivity extends AppCompatActivity {
 
     private DatabaseReference DataRef;
-    private ArrayList<String> prodCategoryList = new ArrayList<>();
+    private ArrayList<Product> productList = new ArrayList<>();
     public static final int NUMBER_OF_COLUMNS = 2;
-    public static final String CATEGORY_NAME = "com.example.retail_stock_management.CATEGORY_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);
+        setContentView(R.layout.activity_prod_sell);
+
+        Intent ProductSell = getIntent();
+        String category_name = ProductSell.getStringExtra(SellActivity.CATEGORY_NAME);
 
         DataRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference CategoryDataRef = DataRef.child("category");
+        DatabaseReference ProductDataRef = DataRef.child("product");
 
-        CategoryDataRef.addValueEventListener(new ValueEventListener() {
+        ProductDataRef.orderByChild("productCategory").equalTo(category_name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot category: dataSnapshot.getChildren()) {
-                    String category_name = category.getValue(String.class);
-                    prodCategoryList.add(category_name);
+                for (DataSnapshot product_child: dataSnapshot.getChildren()) {
+                    Product product = product_child.getValue(Product.class);
+                    productList.add(product);
                 }
 
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_category);
-                recyclerView.setLayoutManager(new GridLayoutManager(SellActivity.this, NUMBER_OF_COLUMNS));
+                Collections.sort(productList,new ProductCompare());
 
-                RecyclerButtonViewAdapter Adapter = new RecyclerButtonViewAdapter(prodCategoryList, new RecyclerButtonViewAdapter.OnItemClickListener() {
+                RecyclerView recyclerView = findViewById(R.id.recycler_view_category);
+                recyclerView.setLayoutManager(new GridLayoutManager(ProdSellActivity.this, NUMBER_OF_COLUMNS));
+
+                RecyclerItemViewAdapter Adapter = new RecyclerItemViewAdapter(productList, new RecyclerItemViewAdapter.OnItemClickListener() {
                     @Override public void onItemClick(String button_text) {
-                        Intent ProductSell = new Intent(SellActivity.this, ProdSellActivity.class);
+                        Intent ProductSell = new Intent(ProdSellActivity.this, ProdSellActivity.class);
                         ProductSell.putExtra(CATEGORY_NAME, button_text);
                         startActivity(ProductSell);
                     }
@@ -55,5 +60,7 @@ public class SellActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+
+
     }
 }

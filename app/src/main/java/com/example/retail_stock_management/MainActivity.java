@@ -15,12 +15,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sell(View view) {
-        Intent sell_intent = new Intent(this, SellActivity.class);
-        startActivity(sell_intent);
+        Intent Sell = new Intent(this, SellActivity.class);
+        startActivity(Sell);
     }
 
     public void admin(View view) {
-        Intent admin_intent = new Intent(this, AddProdActivity.class);
-        startActivity(admin_intent);
+        Intent Admin = new Intent(this, AddProdActivity.class);
+        startActivity(Admin);
     }
 }

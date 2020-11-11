@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/prod_name"
+        android:id="@+id/recycler_prod_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -59,13 +59,13 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/upload_img"
+        android:id="@+id/upload_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
-        android:onClick="upload_img"
+        android:onClick="add_product"
         android:text="@string/button_admin_upload"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prod_price" />
@@ -79,5 +79,5 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upload_img" />
+        app:layout_constraintTop_toBottomOf="@+id/upload_product" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 public class AddProdActivity extends AppCompatActivity {
@@ -82,22 +83,22 @@ public class AddProdActivity extends AppCompatActivity {
         });
 
         final Spinner spinner = findViewById(R.id.prod_category);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, prodCategoryList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<String> Adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, prodCategoryList);
+        Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(Adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                String selectedCategory = spinner.getSelectedItem().toString();
+                String selected_category = spinner.getSelectedItem().toString();
 
 
-                if (selectedCategory == "New category") {
+                if (selected_category == "New category") {
                     new_category();
                 }
-                else if (selectedCategory != "Pick category"){
-                    prodCategory = selectedCategory;
+                else if (selected_category != "Pick category"){
+                    prodCategory = selected_category;
                 }
             }
 
@@ -111,7 +112,7 @@ public class AddProdActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(AddProdActivity.this);
 
         View viewInflated = LayoutInflater.from(AddProdActivity.this).inflate(R.layout.popup_add_prod_category, null, false);
-        final EditText new_category_input = viewInflated.findViewById(R.id.popupNewCategory);
+        final EditText NewCategoryInput = viewInflated.findViewById(R.id.popupNewCategory);
 
         builder.setTitle("New category name:");
         builder.setView(viewInflated);
@@ -120,7 +121,7 @@ public class AddProdActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                newProdCategory = new_category_input.getText().toString();
+                newProdCategory = NewCategoryInput.getText().toString();
                 prodCategory  = newProdCategory;
                 Toast.makeText(AddProdActivity.this, newProdCategory + " will be added to category.", Toast.LENGTH_SHORT).show();
             }
@@ -136,10 +137,10 @@ public class AddProdActivity extends AppCompatActivity {
     }
 
     public void pick_img(View view) {
-        Intent upload_intent = new Intent();
-        upload_intent.setAction(Intent.ACTION_GET_CONTENT);
-        upload_intent.setType("image/*");
-        startActivityForResult(upload_intent, REQUEST_UPLOAD);
+        Intent Upload = new Intent();
+        Upload.setAction(Intent.ACTION_GET_CONTENT);
+        Upload.setType("image/*");
+        startActivityForResult(Upload, REQUEST_UPLOAD);
     }
 
     @Override
@@ -147,16 +148,16 @@ public class AddProdActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_UPLOAD && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
-            ImageView ImageDisplay = findViewById(R.id.upload_display);
-            ImageDisplay.setImageURI(imageUri);
+            ImageView imageDisplay = findViewById(R.id.upload_display);
+            imageDisplay.setImageURI(imageUri);
         }
     }
 
-    public void upload_img(View view) {
-        EditText ProductName = findViewById(R.id.prod_name);
-        EditText ProductPrice = findViewById(R.id.prod_price);
-        final String prodName = ProductName.getText().toString();
-        final String prodPrice = ProductPrice.getText().toString();
+    public void add_product(View view) {
+        EditText prodNameInput = findViewById(R.id.prod_name);
+        EditText prodPriceInput = findViewById(R.id.prod_price);
+        final String prodName = prodNameInput.getText().toString();
+        final String prodPrice = prodPriceInput.getText().toString();
 
         if (imageUri == null) {
             Toast.makeText(this, "Missing product image", Toast.LENGTH_SHORT).show();
@@ -189,9 +190,9 @@ public class AddProdActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-                        final String image_url = downloadUri.toString();
+                        final String prodImageUrl = downloadUri.toString();
 
-                        saveToDatabase(prodName, prodPrice, prodCategory, image_url);
+                        save_to_database(prodName, prodPrice, prodCategory, prodImageUrl);
                     } else {
                         // Handle failures
                         Toast.makeText(AddProdActivity.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -201,37 +202,18 @@ public class AddProdActivity extends AppCompatActivity {
         }
     }
 
-    public void saveToDatabase(String prodName, String prodPrice, String prodCategory, String image_url) {
+    public void save_to_database(String prodName, String prodPrice, String prodCategory, String prodImageUrl) {
         DatabaseReference ProductDataRef = DataRef.child("product");
         String prodID = ProductDataRef.push().getKey();
 
-        Product newProduct = new Product(prodName, prodPrice, prodCategory, image_url);
+        Product NewProduct = new Product(prodName, prodPrice, "0", prodCategory, prodImageUrl, "", new ArrayList<String>(), "", );
 
-        ProductDataRef.child(prodID).setValue(newProduct);
+        ProductDataRef.child(prodID).setValue(NewProduct);
 
         if (newProdCategory == prodCategory){
             DatabaseReference NewCategoryDataRef = DataRef.child("category");
             NewCategoryDataRef.push().setValue(prodCategory);
             newProdCategory = "";
         }
-    }
-}
-
-@IgnoreExtraProperties
-class Product {
-    public String productName;
-    public String productPrice;
-    public String prodCategory;
-    public String productImage;
-
-    public Product() {
-
-    }
-
-    public Product (String productName, String productPrice, String prodCategory, String productImage){
-        this.productName = productName;
-        this.productPrice = productPrice;
-        this.prodCategory = prodCategory;
-        this.productImage = productImage;
     }
 }

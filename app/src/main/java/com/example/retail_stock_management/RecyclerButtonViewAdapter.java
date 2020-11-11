@@ -31,9 +31,9 @@ public class RecyclerButtonViewAdapter extends RecyclerView.Adapter<RecyclerButt
         // each data item is just a string in this case
         public Button buttonView;
 
-        public ButtonViewHolder(View recycler_view) {
-            super(recycler_view);
-            buttonView = recycler_view.findViewById(R.id.recycler_view_buttonView);
+        public ButtonViewHolder(View recyclerView) {
+            super(recyclerView);
+            buttonView = recyclerView.findViewById(R.id.recycler_button);
         }
     }
 
@@ -44,8 +44,8 @@ public class RecyclerButtonViewAdapter extends RecyclerView.Adapter<RecyclerButt
         // create a new view
         View recycler_view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_button_view, parent, false);
-        ButtonViewHolder vh = new ButtonViewHolder(recycler_view);
-        return vh;
+        ButtonViewHolder Vh = new ButtonViewHolder(recycler_view);
+        return Vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
